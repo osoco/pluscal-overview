@@ -1,7 +1,9 @@
+FILE=PlusCal-Overview
 LATEX=$(which xelatex)
 BIBTEX=$(which bibtex)
 
-$LATEX PlusCal-Workshop.tex
-$BIBTEX PlusCal-Workshop.aux
-$LATEX PlusCal-Workshop.tex
-$LATEX PlusCal-Workshop.tex
+$LATEX $FILE.tex
+$BIBTEX $FILE.aux
+$LATEX $FILE.tex
+$LATEX $FILE.tex
+rm $FILE.aux $FILE.bbl $FILE.blg $FILE.log $FILE.nav $FILE.out $FILE.snm $FILE.toc
