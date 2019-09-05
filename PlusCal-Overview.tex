@@ -1,4 +1,4 @@
-2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This presentation uses the Metropolis BEAMER theme:
 %   https://github.com/matze/mtheme
 %
@@ -86,6 +86,32 @@
 
 \subsection{Values and Standard Operations}
 
+\begin{frame}{Basic values}
+  Four basic values in \tlaplus:
+  \begin{description}
+    \item[String] Must be written en double quotes.
+    \item[Integer] Floats are not supported.
+    \item[Boolean] Written as TRUE and FALSE.
+    \item[Model value] A kind of symbol value.
+  \end{description}
+\end{frame}
+
+\begin{frame}{Standard operations}
+  \begin{table}
+    \begin{tabular}{@{} p{2cm}lp{3cm} @{}}
+      \toprule
+      Operator & Meaning & Example\\
+      \midrule
+      \mintinline{c}{x = y} & Equals & \mintinline{c}{>> 1 = 2} \newline FALSE \\
+      \mintinline{c}{x /= y} & Not Equals & \mintinline{c}{>> 1 /= 2} \newline TRUE\\
+      \mintinline{c}{x /\ y} & And & \mintinline{c}{>> TRUE /\ FALSE} \newline FALSE\\
+      \mintinline{c}{x \/ y} & Or & \mintinline{c}{>> TRUE \/ FALSE} \newline TRUE\\
+      \mintinline{c}{~x} & Not & \mintinline{c}{>> ~TRUE} \newline FALSE\\      
+      \mintinline{c}{x := y} & Assignment & PlusCal only\\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
 
 \subsection{Arithmetic Operations}
 
