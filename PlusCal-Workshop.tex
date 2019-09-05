@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This presentation uses the Metropolis BEAMER theme:
+%   https://github.com/matze/mtheme
+%
+% The theme requires you install the Mozilla's Fira Sans fonts and XeTex
+% to enjoy the typography.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt]{beamer}
+
+\usetheme{metropolis}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+
+% Custom commands
+\newcommand{\tlaplus}{\textbf{\textsc{TLA\textsuperscript{+}}}\xspace}
+\newcommand{\pluscal}{\textbf{\textsc{PlusCal}}\xspace}
+
+\title{A \tlaplus and \pluscal Overview}
+\subtitle{Some koans and exercises}
+\date{\today}
+\author{Rafael Luque}
+\institute{OSOCO}
+
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{figures/logo-15th-black.pdf}}
+
+\begin{document}
+
+\maketitle
+
+% ToC
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Introduction}
+
+\section{\pluscal Syntax}
+
+\section{\pluscal Koans}
+
+\section{Workshop of Spec Writing}
+
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\appendix
+
+\begin{frame}[allowframebreaks]{References}
+
+  \nocite{*}
+  \bibliography{PlusCal-Workshop}
+  \bibliographystyle{alpha}
+
+\end{frame}
+
+\end{document}
