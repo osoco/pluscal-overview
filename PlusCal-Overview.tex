@@ -1,9 +1,13 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+2%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This presentation uses the Metropolis BEAMER theme:
 %   https://github.com/matze/mtheme
 %
 % The theme requires you install the Mozilla's Fira Sans fonts and XeTex
 % to enjoy the typography.
+%
+% The source code is included using the Minted package that requires
+% that Python's pygmentize package is available in your system and
+% compile with the -shell-escape option.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[10pt]{beamer}
@@ -18,6 +22,10 @@
 \usepgfplotslibrary{dateplot}
 
 \usepackage{xspace}
+\usepackage{minted}
+\usepackage{pifont}
+
+\definecolor{bgCode}{rgb}{0.95,0.95,0.95}
 
 % Custom commands
 \newcommand{\tlaplus}{\textbf{\textsc{TLA\textsuperscript{+}}}\xspace}
@@ -43,7 +51,50 @@
 
 \section{Introduction}
 
-\section{\pluscal Syntax}
+\section{Test the Water}
+
+\section{\pluscal Semantics}
+
+\begin{frame}{About \pluscal}
+  \begin{itemize}
+    \item Developed by Lamport in 2009 to make \tlaplus more accessible to programmers.
+    \item \pluscal provides a pseucode-like structure on top of \tlaplus.
+    \item Adds additional syntax: \alert{assignments} and \alert{labels}.
+    \item \pluscal is language that compiles down to \tlaplus.
+  \end{itemize}
+\end{frame}
+
+\subsection{Spec layout}
+
+\defverbatim[colored]\layoutSample{
+  \inputminted[bgcolor=bgCode,escapeinside=//]{c}{samples/layout.tla}
+}
+\begin{frame}{Spec layout}
+  \layoutSample
+\end{frame}
+
+\begin{frame}{Spec layout}
+  \begin{dingautolist}{182}
+  \item \tlaplus specs must start with at least four - at each side of \mintinline{c}{MODULE} and four = at the end.
+  \item The module name must be the same as filename.
+  \item \mintinline{c}{EXTENDS} is the import keyword.
+  \item \mintinline{c}{(*...*)} is the block comment. \pluscal spec starts with \mintinline{c}{--algorithm <name>} and ends with \mintinline{c}{end algorithm}.
+  \item Initialization of variables.
+    \item Where the algorithm is implemented.
+  \end{dingautolist}
+\end{frame}
+
+\subsection{Values and Standard Operations}
+
+
+\subsection{Arithmetic Operations}
+
+\subsection{Sets}
+
+\subsection{Tuples or Sequences}
+
+\subsection{Structs}
+
 
 \section{\pluscal Koans}
 
@@ -58,8 +109,7 @@
 
 \begin{frame}[allowframebreaks]{References}
 
-  \nocite{*}
-  \bibliography{PlusCal}
+  \nocite{*}  \bibliography{PlusCal}xuxuxux1u
   \bibliographystyle{alpha}
 
 \end{frame}

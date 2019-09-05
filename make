@@ -1,5 +1,5 @@
 FILE=PlusCal-Overview
-LATEX=$(which xelatex)
+LATEX=$(which xelatex) -shell-escape
 BIBTEX=$(which bibtex)
 
 $LATEX $FILE.tex
