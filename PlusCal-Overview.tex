@@ -52,9 +52,7 @@
 
 \section{Introduction}
 
-\section{Test the Water}
-
-\section{\pluscal Semantics}
+\section{\tlaplus and \pluscal Semantics}
 
 \begin{frame}{About \pluscal}
   \begin{itemize}
@@ -236,10 +234,73 @@
   \end{minted}
 \end{frame}
 
+\subsection{\pluscal Algorithm Body}
 
+\begin{frame}{Assignments}
+  Assign an \alert{existing} variable to a value with \mintinline{text}{:=}.
 
+  \begin{alertblock}{Rule of thumb}
+    If it's the first time you're using the variable, = is initialization. Every other time, = is equality and := is assignment.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{assert}
+  \begin{exampleblock}{assert}
+    \mintinline{text}{assert TRUE} does nothing, \mintinline{text}{assert FALSE} raises an error.
+  \end{exampleblock}
+  In order to use assertions you need to add \mintinline{text}{EXTENDS TLC} to the spec.
+\end{frame}
+
+\begin{frame}{skip}
+  \begin{itemize}
+    \item A \alert{no-op}.
+    \item To fill parts of the spec that we haven't filled out yet or conditionals that don't update anything.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{if}
+  \begin{minted}{text}
+    if condition1 then
+      body1
+    elsif condition2 then
+      body2
+    else
+      body3
+    end if;
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{while loop}
+  \begin{minted}{text}
+    while condition do
+      body
+    end while;
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{macros}
+  To avoid duplications in your specs you can add macros before the begin of the algorithm:
+  
+  \begin{minted}{text}
+    macro name(arg1, arg2) begin
+      \* macro's body
+    end macro;
+
+    begin
+      name(x, y);
+    end algorithm;
+  \end{minted}
+
+  \begin{alertblock}{Macros limitations}
+    You can place assignments, assertions, and if statements in macros, but not while loops. You also cannot assign to any variable more than once.
+  \end{alertblock}
+\end{frame}
 
 \section{\pluscal Koans}
+
+
+
+\section{Test the Water}
 
 \section{Workshop of Spec Writing}
 
@@ -252,7 +313,8 @@
 
 \begin{frame}[allowframebreaks]{References}
 
-  \nocite{*}  \bibliography{PlusCal}xuxuxux1u
+  \nocite{*}
+  \bibliography{PlusCal}xuxuxux1u
   \bibliographystyle{alpha}
 
 \end{frame}
