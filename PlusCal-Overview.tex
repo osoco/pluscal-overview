@@ -14,6 +14,7 @@
 
 \usetheme{metropolis}
 \usepackage{appendixnumberbeamer}
+\metroset{block=fill}
 
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
@@ -67,7 +68,7 @@
 \subsection{Spec layout}
 
 \defverbatim[colored]\layoutSample{
-  \inputminted[bgcolor=bgCode,escapeinside=//]{c}{samples/layout.tla}
+  \inputminted[bgcolor=bgCode,escapeinside=//]{text}{samples/layout.tla}
 }
 \begin{frame}{Spec layout}
   \layoutSample
@@ -75,16 +76,16 @@
 
 \begin{frame}{Spec layout}
   \begin{dingautolist}{182}
-  \item \tlaplus specs must start with at least four - at each side of \mintinline{c}{MODULE} and four = at the end.
+  \item \tlaplus specs must start with at least four - at each side of \mintinline{text}{MODULE} and four = at the end.
   \item The module name must be the same as filename.
-  \item \mintinline{c}{EXTENDS} is the import keyword.
-  \item \mintinline{c}{(*...*)} is the block comment. \pluscal spec starts with \mintinline{c}{--algorithm <name>} and ends with \mintinline{c}{end algorithm}.
+  \item \mintinline{text}{EXTENDS} is the import keyword.
+  \item \mintinline{text}{(*...*)} is the block comment. \pluscal spec starts with \mintinline{text}{--algorithm <name>} and ends with \mintinline{text}{end algorithm}.
   \item Initialization of variables.
     \item Where the algorithm is implemented.
   \end{dingautolist}
 \end{frame}
 
-\subsection{Values and Standard Operations}
+\subsection{Values and Standard Operators}
 
 \begin{frame}{Basic values}
   Four basic values in \tlaplus:
@@ -96,34 +97,75 @@
   \end{description}
 \end{frame}
 
-\begin{frame}{Standard operations}
+\begin{frame}{Standard operators}
   \begin{table}
     \begin{tabular}{@{} p{2cm}lp{3cm} @{}}
       \toprule
       Operator & Meaning & Example\\
       \midrule
-      \mintinline{c}{x = y} & Equals & \mintinline{c}{>> 1 = 2} \newline FALSE \\
-      \mintinline{c}{x /= y} & Not Equals & \mintinline{c}{>> 1 /= 2} \newline TRUE\\
-      \mintinline{c}{x /\ y} & And & \mintinline{c}{>> TRUE /\ FALSE} \newline FALSE\\
-      \mintinline{c}{x \/ y} & Or & \mintinline{c}{>> TRUE \/ FALSE} \newline TRUE\\
-      \mintinline{c}{~x} & Not & \mintinline{c}{>> ~TRUE} \newline FALSE\\      
-      \mintinline{c}{x := y} & Assignment & PlusCal only\\
+      \mintinline{text}{x = y} & Equals & \mintinline{text}{>> 1 = 2} \newline FALSE \\
+      \mintinline{text}{x /= y} & Not Equals & \mintinline{text}{>> 1 /= 2} \newline TRUE\\
+      \mintinline{text}{x /\ y} & And & \mintinline{text}{>> TRUE /\ FALSE} \newline FALSE\\
+      \mintinline{text}{x \/ y} & Or & \mintinline{text}{>> TRUE \/ FALSE} \newline TRUE\\
+      \mintinline{text}{~x} & Not & \mintinline{text}{>> ~TRUE} \newline FALSE\\      
+      \mintinline{text}{x := y} & Assignment & PlusCal only\\
       \bottomrule
     \end{tabular}
   \end{table}
 \end{frame}
 
-\subsection{Arithmetic Operations}
+\subsection{Arithmetic Operators}
 
-\begin{frame}{Arithmetic Operations}
+\begin{frame}{Arithmetic Operators}
   \begin{itemize}
-    \item  If you \mintinline{c}{EXTENDS Integers} get the arithmetic operators: \textbf{+}, \textbf{-}, \textbf{\%} and \textbf{*}.
-    \item  Decimal division is not supported, only the integer division: \textbf{\mintinline{c}{\div}}.
-    \item You also get the range operator \textbf{\mintinline{c}{..}} where \mintinline{c}{a..b} is the set \mintinline{c}{{a, a+1, ..., b-1, b}}.
+    \item  If you \mintinline{text}{EXTENDS Integers} get the arithmetic operators: \textbf{+}, \textbf{-}, \textbf{\%} and \textbf{*}.
+    \item  Decimal division is not supported, only the integer division: \textbf{\mintinline{text}{\div}}.
+    \item You also get the range operator \textbf{\mintinline{text}{..}} where \mintinline{text}{a..b} is the set \mintinline{text}{{a, a+1, ..., b-1, b}}.
+  \end{itemize}
+\end{frame}
+
+\subsection{Complex Types}
+
+\begin{frame}{Complex Types}
+  \tlaplus has four complex types:
+  \begin{itemize}
+    \item Sets.
+    \item Tuples or sequences.
+    \item Structures.
+    \item Functions.
   \end{itemize}
 \end{frame}
 
 \subsection{Sets}
+
+\begin{frame}{Sets}
+  \begin{exampleblock}{Sets}
+    \alert{Unordered} collections of elements of the \alert{same type}.
+  \end{exampleblock}
+
+  \mintinline{text}{{1, 2, 42}}
+
+  \mintinline{text}{{{TRUE}, {FALSE, TRUE}, {}}}  
+\end{frame}
+
+\begin{frame}{Set Operators}
+  \scriptsize
+  \begin{table}
+    \begin{tabular}{@{} p{2.5cm}p{2cm}p{3.5cm} @{}}
+      \toprule
+      Operator & Meaning & Example\\
+      \midrule
+      \mintinline{text}{x \in set} & Is member of & \mintinline{text}{>> 1 \in 1..3} \newline TRUE \\
+      \mintinline{text}{x \notin set} & Is not member of & \mintinline{text}{>> 1 \notin 1..2} \newline FALSE\\
+      \mintinline{text}{set1 \subseteq set2} & Is subset of & \mintinline{text}{>> {1, 2} \subseteq {1, 2, 3}} \newline TRUE\\
+      \mintinline{text}{set1 \union set2} & Union & \mintinline{text}{>> {1, 2} \union (2..3)} \newline \mintinline{text}{{1, 2, 3}}\\
+      \mintinline{text}{set1 \intersect set2} & Intersection & \mintinline{text}{>> {1, 2} \intersect (2..3)} \newline \mintinline{text}{{2}}\\
+      \mintinline{text}{set1 \ set2} & Difference & \mintinline{text}{>> {1, 2} \ (2..3)} \newline \mintinline{text}{{1}}\\
+      \mintinline{text}{Cardinality(set)} & Cardinality \newline (requires EXTENDS FiniteSets) & \mintinline{text}{>> Cardinality({1, 2})} \newline 2\\                  
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
 
 \subsection{Tuples or Sequences}
 
