@@ -296,9 +296,151 @@
   \end{alertblock}
 \end{frame}
 
+
+\subsection{Multiple Starting States}
+
+\defverbatim[colored]\multipleStatesSample{
+  \inputminted[bgcolor=bgCode]{text}{samples/multiple-states.tla}
+}
+
+\begin{frame}[allowframebreaks, fragile]{Multiple Starting States}
+  We need a way to specify not just one setup, but an entire space of setups to check our specifications.
+
+  \framebreak
+  
+  We initialize variables with =, but we can also initialize them with \textbf{\mintinline{text}{\in}}.
+
+  TLC will try running the algorithm with any possible element in the set:
+
+  \multipleStatesSample
+
+  \begin{exampleblock}{BOOLEAN set}
+    \tlaplus defines \textbf{BOOLEAN} as the set \mintinline{text}{{TRUE, FALSE}}. This can be useful if you have a variable \mintinline{text}{isReady \in BOOLEAN}.
+  \end{exampleblock}
+  
+  \framebreak
+
+  \begin{exampleblock}{SUBSET}
+    \textbf{SUBSET} is the power set, or the set of all subsets.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    >> SUBSET 1..2
+       {{}, {1}, {2}, {1, 2}}
+  \end{minted}
+
+  \framebreak
+  
+  \begin{exampleblock}{\mintinline{text}{\X}}
+    \textbf{\mintinline{text}{set1 \X set2}} is the set of all tuples where the first element is in set1 and the second element in set2.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    >> (1..2) \X BOOLEAN
+       {<<1, TRUE>>, <<1, FALSE>>, <<2, TRUE>>, <<2, FALSE>>}
+  \end{minted}
+
+  \framebreak
+
+  \begin{exampleblock}{[key: set]}
+    If \mintinline{text}{x \in [key: set]}, then x is an structure where the value of key is an element in set.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    >> [a: (1..2), b: BOOLEAN]
+    {[a |-> 1, b |-> TRUE], [a |-> 2, b |-> TRUE],
+      [a |-> 1, b |-> FALSE], [a |-> 2, b |-> FALSE]}
+  \end{minted}
+  
+\end{frame}
+
+\defverbatim[colored]\oneInitialStateSample{
+  \inputminted[bgcolor=bgCode]{text}{samples/one-initial-state.tla}
+}
+\defverbatim[colored]\multipleInitialStatesSample{
+  \inputminted[bgcolor=bgCode]{text}{samples/multiple-initial-states.tla}
+}
+
+\begin{frame}[allowframebreaks]{Beware of state explosion}
+
+  \oneInitialStateSample
+
+  \framebreak
+
+  \multipleInitialStatesSample
+
+  \textbf{1 state} vs. $10x10x(2x6)^4 =$ \textbf{2,073,600 states}
+  
+\end{frame}
+
+\subsection{Simulating Nondeterminism}
+
+\begin{frame}[allowframebreaks, fragile]{Simulating Nondeterminism}
+  For single process algorithms \pluscal provides two constructs to simulate nondeterminism:
+
+  \framebreak
+
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+
+    \begin{minted}{text}
+    either
+      /* branch 1
+    or
+      /* branch 2
+    /* ...
+    or
+      /* branch n
+    end either;
+    \end{minted}
+
+  \column{0.5\textwidth}
+
+    \begin{itemize}
+      \item TLC will check all branches.
+      \item No way to make one branch more likely than others.
+      \item If all branches are \emph{macro-valid}, we can place an either inside a macro.
+    \end{itemize}
+  \end{columns}
+
+  \framebreak
+
+  There are two ways to use the \textbf{\mintinline{text}{with}} statement:
+  
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+
+    \begin{minted}{text}
+      with var = value do
+        /* body
+      end with;
+    \end{minted}
+
+  \column{0.5\textwidth}
+
+    \begin{minted}{text}
+      with var \in set do
+        /* body
+      end with;
+    \end{minted}
+    
+  \end{columns}
+
+  \begin{itemize}
+    \item The former creates a temporary variable, the second is nondeterministic.
+    \item TLC will check what happens to all possible assignments of var to elements of set.
+    \item with follows \alert{macro rules}: no double assignments and no while loops.
+    \item You can place with statements inside macros.
+  \end{itemize}
+  
+\end{frame}
+
+\subsection{Operators}
+
+\subsection{Functions}
+
+
 \section{\pluscal Koans}
-
-
 
 \section{Test the Water}
 
