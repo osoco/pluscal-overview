@@ -562,7 +562,8 @@
   \end{exampleblock}
 
   \begin{minted}{text}
-    SeqOverlapsSet(seq, set) == \E x \in 1..Len(seq): seq[x] \in set
+    SeqOverlapsSet(seq, set) ==
+      \E x \in 1..Len(seq): seq[x] \in set
 
     >> SeqOverlapsSet(<<1, 2, 3>>, {2, 4})
     TRUE
@@ -595,9 +596,46 @@
     
 \end{frame}
 
-
 \subsection{Functions}
 
+\begin{frame}[allowframebreaks, fragile]{Functions}
+  
+  \begin{exampleblock}{Functions}
+    A function maps a set of inputs (its \emph{domain}) to a set of outputs.
+
+    All functions have the form \mintinline{text}{[ x \in set |-> P(x) ]}.
+  \end{exampleblock} 
+
+  \begin{minted}{text}
+    [ x \in numbers |-> x * 2 ]
+
+    [ x, y \in set |-> x + y ]
+
+    [ x \in set1, y \in set2 |-> x * y ]
+  \end{minted}
+
+  To call the function you uset \mintinline{text}{function[bar]}.
+
+  If \mintinline{text}{f} has two values, you can call it with both \mintinline{text}{f[a, b]}
+  and \mintinline{text}{f[<<a, b>>]}.
+
+  \framebreak
+
+  Tuples and structures are actually just special cases of functions.
+
+  Tuples are functions where the domain is 1..n.
+
+  Structs are functions where the domain is a set of strings.
+
+  \begin{minted}{text}
+    >> [ x \in 1..2 |-> 2 * x ]
+    <<2, 4>>
+
+    >> Head([ x \in 1..2 |-> 2 * x ])
+    2
+  \end{minted}
+  
+\end{frame}
 
 \section{\pluscal Koans}
 
