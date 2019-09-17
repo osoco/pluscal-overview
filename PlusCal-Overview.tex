@@ -25,6 +25,7 @@
 \usepackage{xspace}
 \usepackage{minted}
 \usepackage{pifont}
+\usepackage[font=scriptsize]{caption}
 
 \definecolor{bgCode}{rgb}{0.95,0.95,0.95}
 
@@ -369,7 +370,7 @@
 
   \multipleInitialStatesSample
 
-  \textbf{1 state} vs. $10x10x(2x6)^4 =$ \textbf{2,073,600 states}
+  \textbf{1 initial state} vs. $10x10x(2x6)^4 =$ \textbf{2,073,600 initial states}
   
 \end{frame}
 
@@ -436,6 +437,164 @@
 \end{frame}
 
 \subsection{Operators}
+
+\defverbatim[colored]\constantsWithOperatorsSample{
+  \inputminted[bgcolor=bgCode]{text}{samples/define-constants-with-operators.tla}
+}
+\defverbatim[colored]\operatorsWithPlusCalVariablesSample{
+  \inputminted[bgcolor=bgCode]{text}{samples/operators-pluscal-variables.tla}
+}
+
+\begin{frame}[allowframebreaks, fragile]{Operators}
+  
+  \begin{exampleblock}{Operators}
+    An \textbf{operator} is the \tlaplus equivalent to procedures in programming languages.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    OpWithArgs(Arg1, Arg2) == Expression
+
+    OpWithoutArgs == Expression
+  \end{minted}
+
+  \framebreak
+
+  \begin{exampleblock}{Higher-order Operators}
+    Operators that take other opertators as arguments.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    Add(a, b) == a + b
+    Apply(Op(_, _), x, y) == Op(x, y)
+
+    >> Apply(Add, 2, 3)
+    5
+  \end{minted}
+
+  \framebreak
+
+  \begin{exampleblock}{Anonymous Operators}
+    You can define anonymous operators with \mintinline{tex}{LAMBDA param1, param2, paramN: body}.
+
+    They can only be used as arguments of other operators, not as standalone operators.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    >> Apply(LAMBDA x, y: x * y, 2, 3)
+    6
+  \end{minted}
+  
+  \framebreak
+
+  \tlaplus also permits definitions of binary (infix) operators.
+
+  For example, the following defines \textbf{$\oplus$} (typed ``(+)'') to mean addition modulo N:
+
+  \begin{minted}{text}
+    a (+) b == (a + b) % N
+  \end{minted}
+  
+  There is a table with the user-definable operator symbols at \cite{PlusCal-Manual}.
+
+  \framebreak
+
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+      \centering
+      \begin{figure}      
+        \includegraphics[width=0.9\textwidth]{figures/user-definable-operator-symbols.png}
+        \caption{User-definable operator symbols}
+      \end{figure}
+    \column{0.5\textwidth}
+      \centering
+      \begin{figure}
+        \includegraphics[width=0.9\textwidth]{figures/ascii-for-typeset-symbols.png}
+        \caption{ASCII for typeset symbols}
+      \end{figure}
+  \end{columns}
+  
+  \framebreak
+
+  \begin{exampleblock}{Operators as constants}
+    If a set of possible values is constant, we define it as an operator instead of a variable. This prevents us from accidentally modifying the set in the algorithm.
+  \end{exampleblock}
+  
+  \constantsWithOperatorsSample
+
+  \begin{exampleblock}{Operators using PlusCal variables}
+    If you want to define an operator using the variables of a PlusCal algorithm, you should place it in a \alert{define} block.
+  \end{exampleblock}
+
+  Definitions goes below variable definitions and above macro definitions.
+  
+  \operatorsWithPlusCalVariablesSample
+  
+\end{frame}
+
+
+\begin{frame}{Invariants}
+  \begin{exampleblock}{Operators as Invariants}
+    We can use operators as \textbf{invariants}. Invariants are boolean expressions that are checked at the end of every state of the model execution. If it's ever false, the model fails.
+  \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks, fragile]{Logical Operators}
+  
+  \begin{exampleblock}{\mintinline{text}{\A}}
+    \textbf{\mintinline{text}{\A}} means ``all elements in a set''. It's used in the form \mintinline{text}{\A x \in set: P(x)}, which means ``for all elements in the set, P(x) is true''.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    AllLessThan(set, max) == \A x \in set: x < max
+
+    >> AllLessThan({1, 3}, 4)
+    TRUE
+
+    >> AllLessThan({1, 3}, 2)
+    FALSE
+  \end{minted}
+
+  \framebreak
+
+  \begin{exampleblock}{\mintinline{text}{\E}}
+    \textbf{\mintinline{text}{\E}} means ``there exists some element in the set''. It's used in the form \mintinline{text}{\E x \in set: P(x)}, which means ``there is at least one element in the set where P(x) is true''.
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    SeqOverlapsSet(seq, set) == \E x \in 1..Len(seq): seq[x] \in set
+
+    >> SeqOverlapsSet(<<1, 2, 3>>, {2, 4})
+    TRUE
+
+    >> SeqOverlapsSet(<<1, 2, 3>>, {4, 5})
+    FALSE
+  \end{minted}
+  
+  \framebreak
+
+  \begin{exampleblock}{\mintinline{text}{=>}}
+    \textbf{\mintinline{text}{P => Q}} means that if P is true, then Q is true.
+  \end{exampleblock}
+
+  It's equivalent to writing \textbf{\mintinline{text}{~P \/ Q}}.
+  
+  \framebreak
+
+  \begin{exampleblock}{\mintinline{text}{<=>}}
+    \textbf{\mintinline{text}{P <=> Q}} means that either P and Q are both true or P and Q are both false. 
+  \end{exampleblock}
+
+  \begin{minted}{text}
+    Xor(A, B) == (~A /\ B) \/ (A /\ ~B)
+    AlternativeXor(A, B) == ~A <=> B
+
+    >> \A A, B \in BOOLEAN: Xor(A, B) = AlternativeXor(A, B)
+    TRUE
+  \end{minted}
+    
+\end{frame}
+
 
 \subsection{Functions}
 
